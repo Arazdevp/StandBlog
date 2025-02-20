@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # installed packages app
+    'django_cleanup.apps.CleanupConfig',
+    'django_render_partial',
+
     # my apps
     'home.apps.HomeConfig',
     'account.apps.AccountConfig',
+    'blog.apps.BlogConfig',
+    'django_social_share',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'context_procesors.context_procesors.recent_articles',
             ],
         },
     },
@@ -122,6 +129,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
