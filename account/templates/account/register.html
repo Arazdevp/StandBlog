@@ -43,23 +43,33 @@
 						Register
 					</span>
 
+                    {% for n_error in form.non_field_errors %}<p class="alert alert-danger">{{ n_error }}</p>{% endfor %}
+                    {% for un_error in form.username.errors %}<p class="alert alert-danger">{{ un_error }}</p>{% endfor %}
+                    {% for e_error in form.email.errors %}<p class="alert alert-danger">{{ e_error }}</p>{% endfor %}
+
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+{#						<input class="input100" type="text" name="username" placeholder="Username">#}
+						{{ form.username }}
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter your email">
-						<input class="input100" type="text" name="email" placeholder="Email">
+{#						<input class="input100" type="text" name="email" placeholder="Email">#}
+						{{ form.email }}
+
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="password1" placeholder="Password">
+{#						<input class="input100" type="password" name="password1" placeholder="Password">#}
+						{{ form.password1 }}
+
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="password2" placeholder="Password">
+{#						<input class="input100" type="password" name="password2" placeholder="Password">#}
+                        {{ form.password2 }}
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -70,7 +80,7 @@
 					</div>
 
 					<div class="text-center p-t-90">
-						<a class="txt1" href="#">
+						<a class="txt1" href="{% url "login" %}">
 							Login
 						</a>
 					</div>
