@@ -43,13 +43,14 @@
 						Log in
 					</span>
 
+                    {% for i in form.non_field_errors %}<p class="alert alert-danger">{{ i }}</p>{% endfor %}
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+                        {{ form.username }}
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="password" placeholder="Password">
+                        {{ form.password }}
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
