@@ -18,8 +18,8 @@
                     <li class="nav-item {% if request.resolver_match.url_name == 'articles' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'articles' %}">All Blogs</a>
                     </li>
-                    <li class="nav-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
-                        <a class="nav-link" href="">Contact Us</a>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'contact_us' %}active{% endif %}">
+                        <a class="nav-link" href="{% url "contact_us" %}">Contact Us</a>
                     </li>
 
                     <li class="nav-item">
