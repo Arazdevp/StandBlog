@@ -55,7 +55,7 @@
                                         <li><a href="#">{{ article.created }}</a></li>
                                         <li><a href="#">12 Comments</a></li>
                                     </ul>
-                                    <p class="multiline-truncate">{{ article.body }}</p>
+                                    <p>{{ article.body|truncatewords:35 }}</p>
                                     <div class="post-options">
                                         <div class="row">
                                             <div class="col-6">
