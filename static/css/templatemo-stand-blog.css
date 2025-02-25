@@ -1091,14 +1091,3 @@ footer p a:hover {
 		margin-top: 60px;
 	}
 }
-
-.multiline-truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* تعداد خطوط مجاز */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 500px; /* عرض محدود */
-  max-height: 500px; /* ارتفاع محدود (اختیاری) */
-}
-

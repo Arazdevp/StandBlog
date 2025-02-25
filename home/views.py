@@ -1,7 +1,7 @@
 from django.shortcuts import render
+from django.views.generic import FormView
 from blog.models import Article
 from .forms import MessageForm
-from .models import Message
 
 
 def home(request):
@@ -11,11 +11,14 @@ def home(request):
 def sidebar(request):
     return render(request, 'includes/sidebar.html', context={"articles": Article.objects.all()})
 
-def contact_us(request):
-    if request.method == "POST":
-        form = MessageForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = MessageForm()
-    return render(request, "home/contact_us.html", context={"form": form})
+
+class ContactUsView(FormView):
+    form_class = MessageForm
+    template_name = "home/contact_us.html"
+
+    def get_success_url(self):
+        return self.request.path
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
