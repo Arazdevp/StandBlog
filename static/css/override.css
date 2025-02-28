@@ -1,0 +1,10 @@
+@font-face {
+    font-family: vazirmatn;
+    src: url("../fonts/vazirmatn/Vazirmatn-RD-Bold.woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: vazirmatn;
+}
