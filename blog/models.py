@@ -53,6 +53,9 @@ class Article(models.Model):
     def __str__(self):
         return f"{self.title} - {self.body[:30]}"
 
+    def get_like(self, user, article):
+        self.likes.get(user=user, article=article)
+
     class Meta:
         ordering = ("-created",)
         verbose_name = "مقاله"
@@ -77,3 +80,15 @@ class Comment(models.Model):
         verbose_name_plural = "نظرات"
 
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes", verbose_name="کاربر")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="likes", verbose_name="مقاله")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.article.title}"
+
+    class Meta:
+        verbose_name = "لایک"
+        verbose_name_plural = "لایک ها"
+        ordering = ("-created_at",)

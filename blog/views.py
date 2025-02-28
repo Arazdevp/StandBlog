@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
-from .models import Article, Category, Comment
+from .models import Article, Category, Comment, Like
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
@@ -47,12 +48,18 @@ class ArticlesListView(BaseListView):
 
 def article_details(request, slug):
     article = get_object_or_404(Article, slug=slug)
-
     if request.method == 'POST':
         body = request.POST.get('body')
         parent_id = request.POST.get('parent_id')
         Comment.objects.create(body=body, article=article, user=request.user, parent_id=parent_id)
-    return render(request, "blog/article_detail.html", context={"article": article})
+
+    context = {'article': article}
+    if request.user.is_authenticated and (x:=request.user.likes.filter(article__slug=article.slug, user_id=request.user.id).exists()):
+        context['like'] = True
+    else:
+        context['like'] = False
+
+    return render(request, "blog/article_detail.html", context=context)
 
 
 
@@ -78,3 +85,12 @@ def search(request):
 
     return render(request, "blog/articles_list.html", context={"articles": articles})
 
+def like(request, slug, pk):
+    try:
+        Like.objects.get(article__slug=slug, user_id=request.user.id).delete()
+        return JsonResponse({'response': 'UnLiked'})
+    except:
+        Like.objects.create(article_id=pk, user_id=request.user.id)
+        return JsonResponse({'response': 'Liked'})
+
+    return redirect("article_detail", slug=slug)
