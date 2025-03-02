@@ -1,9 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Article, Category, Comment, Like
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from django.templatetags.static import static
 
 # Create your views here.
 
@@ -61,7 +61,56 @@ def article_details(request, slug):
 
     return render(request, "blog/article_detail.html", context=context)
 
+# class ArticleDetailsView(DetailView):
+#     model = Article
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         if self.request.user.is_authenticated and self.request.user.likes.filter(article__slug=self.object.slug, user_id=self.request.user.id).exists():
+#             context['like'] = True
+#         else:
+#             context['like'] = False
+#         return context
 
+
+class ArticleDetailsView(DetailView):
+    model = Article
+    # template_name = "blog/article_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated and self.request.user.likes.filter(article__slug=self.object.slug,
+                                                                                 user_id=self.request.user.id).exists():
+            context['like'] = True
+        else:
+            context['like'] = False
+        context['comments'] = self.object.comments.filter(parent__isnull=True)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            self.object = self.get_object()
+            body = request.POST.get('body')
+            parent_id = request.POST.get('parent_id')
+            comment = Comment.objects.create(
+                article=self.object,
+                user=request.user,
+                body=body,
+                parent_id=parent_id if parent_id else None
+            )
+            data = {
+                'success': True,
+                'comment': {
+                    'id': comment.id,
+                    'body': comment.body,
+                    'username': comment.user.username,
+                    'created_at': comment.created_at.strftime("%Y-%m-%d %H:%M"),
+                    'profile_image_url': comment.user.profile.image.url if comment.user.profile.image else static("images/Default-Profile-picture.png"),
+                    'is_reply': True if comment.parent_id else False,
+                }
+            }
+            return JsonResponse(data)
+        return JsonResponse({'success': False})
 
 def category_details(request, name):
     category = get_object_or_404(Category, name=name)

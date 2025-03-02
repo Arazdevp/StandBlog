@@ -19,7 +19,7 @@
                             {% for rc_article in recent_articles %}
                                 <li><a href="{{ rc_article.get_absolute_url }}">
                                     <h5>{{ rc_article.title }}</h5>
-                                    <span>{{ rc_article.created }}</span>
+                                    <span>{{ rc_article.created|date:"Y-m-d" }}</span>
                                 </a></li>
                             {% endfor %}
                         </ul>

@@ -22,7 +22,7 @@
                         <a href="{{ article.get_absolute_url }}"><h4>{{ article.title}}</h4></a>
                         <ul class="post-info">
                             <li><a href="#">{{ article.author.username }}</a></li>
-                            <li><a href="#">{{ article.created }}</a></li>
+                            <li><a href="#">{{ article.created|date:"Y-m-d" }}</a></li>
                             <li><a href="#">12 Comments</a></li>
                         </ul>
                     </div>
@@ -52,7 +52,7 @@
                                     <a href="{{ article.get_absolute_url }}"><h4>{{ article.title }}</h4></a>
                                     <ul class="post-info">
                                         <li><a href="#">{{ article.author }}</a></li>
-                                        <li><a href="#">{{ article.created }}</a></li>
+                                        <li><a href="#">{{ article.created|date:"Y-m-d" }}</a></li>
                                         <li><a href="#">12 Comments</a></li>
                                     </ul>
                                     <p>{{ article.body|truncatewords:35 }}</p>

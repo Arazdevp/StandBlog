@@ -38,8 +38,8 @@
                                         <a href="{{ article.get_absolute_url }}"><h4>{{ article.title }}</h4></a>
                                         <ul class="post-info">
                                             <li><a href="#">{{ article.author.username }}</a></li>
-                                            <li><a href="#">{{ article.created }}</a></li>
-                                            <li><a href="#">10 Comments</a></li>
+                                            <li><a href="#">{{ article.created|date:"Y-m-d" }}</a></li>
+                                            <li><a href="#">{{ article.comments.count }} Comments</a></li>
                                         </ul>
                                         <p>{{ article.body }}</p>
                                         <div class="post-options">
@@ -82,54 +82,59 @@
                                     </div>
 
                                     <div class="content">
-                                        <ul>
+                                        <ul id="commentsList">
                                             {% for comment in article.comments.all %}
                                                 {% if comment.parent == None %}
-                                                    <li>
+                                                    <li id="comment-{{ comment.id }}">
                                                         <div class="author-thumb">
                                                             {% if comment.user.profile.image %}
                                                                 <img src="{{ comment.user.profile.image.url }}"
                                                                      alt="profile">
-
                                                             {% else %}
-                                                                <img src="{% static "images/Default-Profile-picture.png" %}"
+                                                                <img src="{% static 'images/Default-Profile-picture.png' %}"
                                                                      alt="profile">
-
                                                             {% endif %}
                                                         </div>
                                                         <div class="right-content">
-                                                            <h4>{{ comment.user.username }}<span>{{ comment.created_at }}</span>
+                                                            <h4>{{ comment.user.username }}<span>{{ comment.created_at|date:"Y-m-d H:i" }}</span>
                                                             </h4>
                                                             <p>{{ comment.body }}</p>
+                                                            {% if request.user.is_authenticated %}
                                                             <button onclick="set_value({{ comment.id }}, this)"
-                                                                    class="btn btn-warning">Replay
+                                                                    class="btn btn-warning">Reply
                                                             </button>
+                                                            {% endif %}
                                                         </div>
+                                                        {# اگر کامنت والد دارای reply باشد، UL را از قبل رندر کنید #}
+                                                        {% if comment.replies.all %}
+                                                            <ul class="replies">
+                                                                {% for reply in comment.replies.all %}
+                                                                    <li class="replied">
+                                                                        <div class="author-thumb">
+                                                                            {% if reply.user.profile.image %}
+                                                                                <img src="{{ reply.user.profile.image.url }}"
+                                                                                     alt="profile">
+                                                                            {% else %}
+                                                                                <img src="{% static 'images/Default-Profile-picture.png' %}"
+                                                                                     alt="profile">
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="right-content">
+                                                                            <h4>{{ reply.user.username }}<span>{{ reply.created_at|date:"Y-m-d H:i" }}</span>
+                                                                            </h4>
+                                                                            <p>{{ reply.body }}</p>
+                                                                        </div>
+                                                                    </li>
+                                                                    <br>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
                                                     </li>
-                                                    {% for replay in comment.replies.all %}
-                                                        <li class="replied">
-                                                            <div class="author-thumb">
-                                                                {% if replay.user.profile.image %}
-                                                                    <img src="{{ replay.user.profile.image.url }}"
-                                                                         alt="profile">
-
-                                                                {% else %}
-                                                                    <img src="{% static "images/Default-Profile-picture.png" %}"
-                                                                         alt="profile">
-
-                                                                {% endif %}
-                                                            </div>
-                                                            <div class="right-content">
-                                                                <h4>{{ replay.user.username }}<span>{{ replay.created_at }}</span>
-                                                                </h4>
-                                                                <p>{{ replay.body }}</p>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
+                                                    <br>
                                                 {% endif %}
                                             {% endfor %}
-
                                         </ul>
+
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +145,8 @@
                                     </div>
                                     <div class="content">
                                         {% if request.user.is_authenticated %}
-                                            <form id="comment" method="post">
+                                            <form id="commentForm" method="post"
+                                                  action="{% url 'article_detail' article.slug %}">
                                                 {% csrf_token %}
                                                 <div class="row">
                                                     <input type="hidden" name="parent_id" id="parent_id">
@@ -200,6 +206,8 @@
                 last_comment_for_replay = element;
             }
         }
+
     </script>
+
 
 {% endblock %}
