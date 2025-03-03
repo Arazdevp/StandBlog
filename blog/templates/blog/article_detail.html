@@ -105,7 +105,7 @@
                                                             </button>
                                                             {% endif %}
                                                         </div>
-                                                        {# اگر کامنت والد دارای reply باشد، UL را از قبل رندر کنید #}
+
                                                         {% if comment.replies.all %}
                                                             <ul class="replies">
                                                                 {% for reply in comment.replies.all %}

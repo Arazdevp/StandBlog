@@ -2,7 +2,7 @@
 <header class="">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="{% url "home"%}"><h2>Stand Blog<em>.</em></h2></a>
+            <a class="navbar-brand" href="{% url "home" %}"><h2>Stand Blog<em>.</em></h2></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,8 +22,13 @@
                         <a class="nav-link" href="{% url "contact_us" %}">Contact Us</a>
                     </li>
 
-                    <li class="nav-item">
-                        {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
+
+                        <li class="nav-item {% if request.resolver_match.url_name == 'add_article' %}active{% endif %}">
+                            <a class="nav-link" href="{% url "add_article" %}">Add Article</a>
+                        </li>
+
+                        <li class="nav-item">
 
                             <div class="d-flex">
                                 {% if user.profile.image %}
@@ -40,14 +45,14 @@
 
                             </div>
 
-                        {% else %}
+                            {% else %}
                             <div class="d-flex">
                                 <a class="nav-link" href="{% url "login" %}">Login</a>
                                 <span class="mt-1">|</span>
                                 <a class="nav-link" href="{% url "register" %}">Register</a>
                             </div>
-                        {% endif %}
-                    </li>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

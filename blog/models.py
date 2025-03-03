@@ -28,14 +28,16 @@ class Article(models.Model):
     category = models.ManyToManyField(Category, related_name='articles', verbose_name="دسته بندی")
     title = models.CharField(max_length=200, unique=True, verbose_name="عنوان")
     body = models.TextField(verbose_name="مقاله")
-    image = models.ImageField(upload_to='images/articles', verbose_name="تصیویر")
-    published = models.BooleanField(default=True, verbose_name="وضعیت انتشار")
+    image = models.ImageField(upload_to='images/articles', verbose_name="تصویر")
+    published = models.BooleanField(default=False, verbose_name="وضعیت انتشار")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
 
     def get_category(self):
         return self.category.first()
+    get_category.short_description = "دسته بندی"
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
