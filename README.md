@@ -4,7 +4,7 @@ StandBlog is a practice project developed to allow users to publish their own ar
 
 ## Features
 
-**Note:** This project does not include a rich text editor or an API. Its core functionality centers on backend processes and basic blog publishing capabilities.
+**Note:** Its core functionality centers on backend processes and basic blog publishing capabilities.
 
 - **User Registration and Authentication:** Users can sign up, log in, and manage their profiles.
 - **Article Publishing:** Authenticated users can create, edit, and publish their articles.
@@ -33,7 +33,6 @@ Possible future improvements include:
 
 - Refining the codebase to follow best practices more closely.
 - Enhancing the UI for a more polished front-end experience.
-- Implementing additional features such as a rich text editor and API integration if needed.
 
 ## Conclusion
 
