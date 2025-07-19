@@ -175,3 +175,4 @@ cython_debug/
 
 # other
 ToDo.md
+.idea/
