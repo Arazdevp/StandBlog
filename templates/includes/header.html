@@ -32,12 +32,12 @@
 
                             <div class="d-flex">
                                 {% if user.profile.image %}
-                                    <span><img src="{{ user.profile.image.url }}" width="40px" height="40px"
-                                               style="border-radius: 100%" alt="profile"></span>
+                                    <span><a href="{% url "edit_info" %}"><img src="{{ user.profile.image.url }}" width="40px" height="40px"
+                                               style="border-radius: 100%" alt="profile"></a></span>
 
                                 {% else %}
-                                    <span><img src="{% static "images/Default-Profile-picture.png" %}" width="40px"
-                                               height="40px" style="border-radius: 100%" alt="profile"></span>
+                                    <span><a href="{% url "edit_info" %}"><img src="{% static "images/Default-Profile-picture.png" %}" width="40px"
+                                               height="40px" style="border-radius: 100%" alt="profile"></a></span>
 
                                 {% endif %}
                                 <a class="nav-link" href="">{{ request.user.username }}</a>
