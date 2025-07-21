@@ -1,15 +1,14 @@
 from django.shortcuts import render
 from django.views.generic import FormView
-from blog.models import Article
 from .forms import MessageForm
 
 
 def home(request):
-    return render(request, "home/home.html", context={"articles": Article.objects.all()})
+    return render(request, "home/home.html")
 
 
 def sidebar(request):
-    return render(request, 'includes/sidebar.html', context={"articles": Article.objects.all()})
+    return render(request, 'includes/sidebar.html')
 
 
 class ContactUsView(FormView):
