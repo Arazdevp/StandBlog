@@ -38,7 +38,7 @@
                                             <a href="{{ article.get_absolute_url }}"><h4>{{ article.title }}</h4></a>
                                             <ul class="post-info">
                                                 <li><a href="#">{{ article.author }}</a></li>
-                                                <li><a href="#">{{ article.created }}</a></li>
+                                                <li><a href="#">{{ article.created|date:"Y-m-d H:i" }}</a></li>
                                                 <li><a href="#">{{ article.comments.count }} Comments</a></li>
                                             </ul>
                                             <p>
